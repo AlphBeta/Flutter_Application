@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_signin/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:sklite/naivebayes/naive_bayes.dart';
+import 'package:sklite/utils/io.dart';
+import 'dart:convert';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,5 +33,29 @@ class MyApp extends StatelessWidget {
       ),
       home: const SignInScreen(),
     );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() {
+    return new _HomePageState();
+  }
+}
+
+class _HomePageState extends State<HomePage> {
+  late GaussianNB gnb;
+
+  _HomePageState() {
+    loadModel("assets/skmodel.json").then((x) {
+      this.gnb = GaussianNB.fromMap(json.decode(x));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        // add any widget with svc.predict() callback
+        );
   }
 }
